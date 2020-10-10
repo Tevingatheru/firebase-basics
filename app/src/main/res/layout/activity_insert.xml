@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="15dp"
 
-    tools:context=".InsertActivity">
+    tools:context=".activity.InsertActivity">
 
     <EditText
         android:id="@+id/title"
