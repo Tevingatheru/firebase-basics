@@ -1,4 +1,4 @@
 package com.example.firebase.basics;
 
-public class FirebaseDatabaseContract {
+public class ListActivity {
 }
