@@ -31,13 +31,10 @@ public class InsertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
 
-
-        FirebaseUtil.openFbReference("traveldeal");
-
-//        title = findViewById(R.id.title);
-//        description = findViewById(R.id.description);
-//        price = findViewById(R.id.price);
+        listenToFB();
+        initializeContent();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -64,6 +61,7 @@ public class InsertActivity extends AppCompatActivity {
         title.setText("");
         price.setText("");
         description.setText("");
+        title.requestFocus();
     }
 
     private void saveDeal() {
@@ -71,5 +69,18 @@ public class InsertActivity extends AppCompatActivity {
         String txtDescription = title.getText().toString();
         double txtPrice = Double.parseDouble(price.getText().toString());
         TravelDeal deal = new TravelDeal(txtTitle, txtPrice, txtDescription, "");
+        databaseReference.push().setValue(deal);
+    }
+
+    private void initializeContent() {
+        title = findViewById(R.id.title);
+        description = findViewById(R.id.description);
+        price = findViewById(R.id.price);
+    }
+
+    private void listenToFB() {
+        FirebaseUtil.openFbReference("traveldeals");
+        firebaseDatabase = FirebaseUtil.firebaseDatabase;
+        databaseReference = FirebaseUtil.databaseReference;
     }
 }

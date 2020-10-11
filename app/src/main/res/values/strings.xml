@@ -4,4 +4,6 @@
     <string name="price_hint">Price</string>
     <string name="description_hint">Description</string>
     <string name="save">save</string>
+    <string name="hello_world">Hello World</string>
+    <string name="currency">KES</string>
 </resources>

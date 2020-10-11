@@ -1,11 +1,14 @@
 package com.example.firebase.basics;
 
 public class TravelDeal {
-    private int id;
+    private String id;
     private String title;
     private double price;
     private String description;
     private String imageUri;
+
+    public TravelDeal() {
+    }
 
     public TravelDeal(String title, double price, String description, String imageUri) {
         this.id = id;
@@ -15,11 +18,11 @@ public class TravelDeal {
         this.imageUri = imageUri;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
