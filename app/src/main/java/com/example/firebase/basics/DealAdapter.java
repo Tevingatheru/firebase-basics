@@ -1,7 +1,6 @@
 package com.example.firebase.basics;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase.basics.util.FirebaseUtil;
-import com.google.android.gms.common.internal.StringResourceValueReader;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,15 +22,13 @@ import java.util.ArrayList;
 
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder> {
 
-    ArrayList<TravelDeal> deals;
+    ArrayList<TravelDeal> dealList;
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
     private ChildEventListener childEventListener;
 
     public DealAdapter() {
         listenToFB();
-        deals = FirebaseUtil.deals;
-        notifyItemInserted(deals.size() - 1);
 
         childEventListener = new ChildEventListener() {
             @Override
@@ -41,7 +36,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
                 TravelDeal travelDeal = snapshot.getValue(TravelDeal.class);
                 Log.i("Deal: ", travelDeal.getTitle());
                 travelDeal.setId(snapshot.getKey());
-                deals.add(travelDeal);
+                dealList.add(travelDeal);
+                notifyItemInserted(dealList.size() - 1);
             }
 
             @Override
@@ -77,13 +73,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DealViewHolder holder, int position) {
-        TravelDeal deal = deals.get(position);
+        TravelDeal deal = dealList.get(position);
         holder.bind(deal);
     }
 
     @Override
     public int getItemCount() {
-        return deals.size();
+        return dealList.size();
     }
 
     public class DealViewHolder extends RecyclerView.ViewHolder {
@@ -111,5 +107,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         FirebaseUtil.openFbReference("traveldeals");
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
+        dealList = FirebaseUtil.deals;
     }
 }

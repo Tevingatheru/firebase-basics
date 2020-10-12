@@ -23,8 +23,6 @@ public class InsertActivity extends AppCompatActivity {
 
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
-    private static FirebaseUtil firebaseUtil;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,7 @@ public class InsertActivity extends AppCompatActivity {
     private void saveDeal() {
         String txtTitle = title.getText().toString();
         String txtDescription = title.getText().toString();
-        double txtPrice = Double.parseDouble(price.getText().toString());
+        String txtPrice = price.getText().toString();
         TravelDeal deal = new TravelDeal(txtTitle, txtPrice, txtDescription, "");
         databaseReference.push().setValue(deal);
     }

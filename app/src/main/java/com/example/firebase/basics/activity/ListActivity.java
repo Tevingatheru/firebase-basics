@@ -16,15 +16,12 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        RecyclerView rvDeals = (RecyclerView) findViewById(R.id.rv_deals);
+        RecyclerView rvDeals = (RecyclerView) findViewById(R.id.rvDealList);
         final DealAdapter adapter = new DealAdapter();
         rvDeals.setAdapter(adapter);
 
-        System.out.println(rvDeals == null);
-        System.out.println(adapter == null);
-
         LinearLayoutManager dealLinearLayout =
-                new LinearLayoutManager( ListActivity.this, LinearLayoutManager.VERTICAL, false);
+                new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false);
         rvDeals.setLayoutManager(dealLinearLayout);
     }
 }

@@ -3,14 +3,14 @@ package com.example.firebase.basics;
 public class TravelDeal {
     private String id;
     private String title;
-    private double price;
+    private String price;
     private String description;
     private String imageUri;
 
     public TravelDeal() {
     }
 
-    public TravelDeal(String title, double price, String description, String imageUri) {
+    public TravelDeal(String title, String price, String description, String imageUri) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -34,11 +34,11 @@ public class TravelDeal {
         this.title = title;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
