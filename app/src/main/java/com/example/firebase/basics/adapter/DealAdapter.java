@@ -1,6 +1,7 @@
-package com.example.firebase.basics;
+package com.example.firebase.basics.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.firebase.basics.R;
+import com.example.firebase.basics.activity.EditActivity;
+import com.example.firebase.basics.activity.InsertActivity;
+import com.example.firebase.basics.domain.TravelDeal;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +38,14 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TravelDeal travelDeal = snapshot.getValue(TravelDeal.class);
+                TravelDeal travelDeal;
+                try {
+                    travelDeal = snapshot.getValue(TravelDeal.class);
+                } catch (RuntimeException e) {
+                    Log.e("error.initializing.traveldeal", e.getMessage(), e);
+                    throw new RuntimeException(e.getMessage(), e);
+                }
+
                 Log.i("Deal: ", travelDeal.getTitle());
                 travelDeal.setId(snapshot.getKey());
                 dealList.add(travelDeal);
@@ -66,8 +78,14 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     @NonNull
     @Override
     public DealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.rv_deals, parent, false);
+        try {
+            view = LayoutInflater.from(context).inflate(R.layout.rv_row, parent, false);
+        } catch (RuntimeException e) {
+            Log.e("error.inflating.view", e.getMessage(), e);
+            throw new RuntimeException("error.inflating.view", e);
+        }
         return new DealViewHolder(view);
     }
 
@@ -82,7 +100,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         return dealList.size();
     }
 
-    public class DealViewHolder extends RecyclerView.ViewHolder {
+    public class DealViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
         TextView tvTitle;
         TextView tvPrice;
         TextView tvDescription;
@@ -90,16 +109,26 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-            tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
-            tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
+            tvTitle = (TextView) itemView.findViewById(R.id.row_title);
+            tvPrice = (TextView) itemView.findViewById(R.id.row_price);
+            tvDescription = (TextView) itemView.findViewById(R.id.row_description);
+            itemView.setOnClickListener(this);
         }
 
         public void bind (TravelDeal travelDeal) {
-            String price = travelDeal.getPrice() + " " + "KES";
             tvTitle.setText(travelDeal.getTitle());
-            tvPrice.setText(price);
+            tvPrice.setText(travelDeal.getPrice());
             tvDescription.setText(travelDeal.getDescription());
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.d("Position: ", String.valueOf(position));
+            TravelDeal travelDeal = dealList.get(position);
+            Intent intent = new Intent(itemView.getContext(), EditActivity.class);
+            intent.putExtra("Deal", travelDeal);
+            itemView.getContext().startActivity(intent);
         }
     }
 

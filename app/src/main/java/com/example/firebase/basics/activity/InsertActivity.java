@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.firebase.basics.R;
-import com.example.firebase.basics.TravelDeal;
+import com.example.firebase.basics.domain.TravelDeal;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -33,11 +33,10 @@ public class InsertActivity extends AppCompatActivity {
         initializeContent();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_menu:
+            case R.id.save_option:
                 saveDeal();
                 Toast.makeText(this, "Deal Saved", Toast.LENGTH_LONG).show();
                 clean();
@@ -51,7 +50,7 @@ public class InsertActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.activity_insert_menu, menu);
         return true;
     }
 
@@ -64,16 +63,16 @@ public class InsertActivity extends AppCompatActivity {
 
     private void saveDeal() {
         String txtTitle = title.getText().toString();
-        String txtDescription = title.getText().toString();
+        String txtDescription = description.getText().toString();
         String txtPrice = price.getText().toString();
         TravelDeal deal = new TravelDeal(txtTitle, txtPrice, txtDescription, "");
         databaseReference.push().setValue(deal);
     }
 
     private void initializeContent() {
-        title = findViewById(R.id.title);
-        description = findViewById(R.id.description);
-        price = findViewById(R.id.price);
+        title = findViewById(R.id.insert_title);
+        description = findViewById(R.id.insert_description);
+        price = findViewById(R.id.insert_price);
     }
 
     private void listenToFB() {

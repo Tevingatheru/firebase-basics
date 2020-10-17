@@ -1,6 +1,6 @@
 package com.example.firebase.basics.util;
 
-import com.example.firebase.basics.TravelDeal;
+import com.example.firebase.basics.domain.TravelDeal;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

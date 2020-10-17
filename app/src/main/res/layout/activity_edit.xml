@@ -2,14 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_insert"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
-    tools:context=".activity.InsertActivity">
+    tools:context=".activity.EditActivity">
 
     <EditText
-        android:id="@+id/insert_title"
+        android:id="@+id/edit_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/title_hint"
@@ -20,26 +18,27 @@
 
 
     <EditText
-        android:id="@+id/insert_price"
+        android:id="@+id/edit_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/price_hint"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_title"
+        app:layout_constraintTop_toBottomOf="@+id/edit_title"
         android:padding="@dimen/padding_standard"
         />
 
     <EditText
-        android:id="@+id/insert_description"
+        android:id="@+id/edit_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/description_hint"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insert_price"
+        app:layout_constraintTop_toBottomOf="@+id/edit_price"
         android:padding="@dimen/padding_standard"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
