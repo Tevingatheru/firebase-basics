@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.activity.EditActivity;
-import com.example.firebase.basics.activity.InsertActivity;
 import com.example.firebase.basics.domain.TravelDeal;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.ChildEventListener;
@@ -126,9 +125,9 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             int position = getAdapterPosition();
             Log.d("Position: ", String.valueOf(position));
             TravelDeal travelDeal = dealList.get(position);
-            Intent intent = new Intent(itemView.getContext(), EditActivity.class);
+            Intent intent = new Intent(v.getContext(), EditActivity.class);
             intent.putExtra("Deal", travelDeal);
-            itemView.getContext().startActivity(intent);
+            v.getContext().startActivity(intent);
         }
     }
 

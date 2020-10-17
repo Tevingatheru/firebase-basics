@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ public class EditActivity extends AppCompatActivity {
     public static DatabaseReference databaseReference;
 
     private TravelDeal deal;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,28 +36,26 @@ public class EditActivity extends AppCompatActivity {
 
         listenToFB();
         initializeContent(savedInstanceState);
-        Intent intent = getIntent();
 
-        final TravelDeal deal = (TravelDeal) intent.getSerializableExtra("Deal");
-        if (deal == null) {
-            startActivity(new Intent(this, ListActivity.class));
-        }
-        this.deal = deal;
-
+        title.setText(deal.getTitle());
+        description.setText(deal.getDescription());
+        price.setText(deal.getPrice());
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit_option:
+            case R.id.save_option:
                 editDeal();
                 Toast.makeText(this, "Deal Edited", Toast.LENGTH_LONG).show();
+                clean();
+                backToList();
                 return true;
 
             case R.id.delete_option:
                 deleteDeal();
                 Toast.makeText(this, "Deal Deleted", Toast.LENGTH_LONG).show();
-                clean();
+                backToList();
                 return true;
 
             case R.id.view_deals_option:
@@ -74,7 +74,6 @@ public class EditActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void clean() {
         title.setText("");
         price.setText("");
@@ -89,6 +88,8 @@ public class EditActivity extends AppCompatActivity {
         if(deal.getId()==null) {
             throw new NullPointerException();
         }
+        Log.d("Edit: ", deal.getId());
+
         databaseReference.child(deal.getId()).setValue(deal);
     }
 
@@ -97,22 +98,28 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(this, "Deal does not exist", Toast.LENGTH_LONG).show();
             return;
         }
+        Log.d("Delete: ", deal.getId());
         databaseReference.child(deal.getId()).removeValue();
     }
 
     private void backToList() {
-        Intent intent = new Intent(this, ListActivity.class);
+        intent = new Intent(this, ListActivity.class);
+        Log.d("Back: ", deal.getId());
         startActivity(intent);
     }
 
     private void initializeContent(Bundle savedInstanceState) {
         title = (EditText) findViewById(R.id.edit_title);
         description = (EditText) findViewById(R.id.edit_description) ;
-        price = (EditText) findViewById(R.id.edit_price) ;
+        price = (EditText) findViewById(R.id.edit_price);
+
+        intent = getIntent();
+        this.deal = (TravelDeal) intent.getSerializableExtra("Deal");
+        assert deal != null;
     }
 
     private void listenToFB() {
-        FirebaseUtil.openFbReference("travedeals");
+        FirebaseUtil.openFbReference("traveldeals");
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
     }
