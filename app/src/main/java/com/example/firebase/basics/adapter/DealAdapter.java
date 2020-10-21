@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.activity.EditActivity;
 import com.example.firebase.basics.domain.TravelDeal;
+import com.example.firebase.basics.service.FirebaseUtilService;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +30,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     ArrayList<TravelDeal> dealList;
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
-    private ChildEventListener childEventListener;
+    private FirebaseUtilService firebaseUtilService;
 
     public DealAdapter() {
         listenToFB();
 
-        childEventListener = new ChildEventListener() {
+        final ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TravelDeal travelDeal;
@@ -99,6 +100,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         return dealList.size();
     }
 
+    private void listenToFB() {
+        firebaseUtilService.listenToFb();
+    }
+
     public class DealViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         TextView tvTitle;
@@ -129,12 +134,5 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             intent.putExtra("Deal", travelDeal);
             v.getContext().startActivity(intent);
         }
-    }
-
-    private void listenToFB() {
-        FirebaseUtil.openFbReference("traveldeals");
-        firebaseDatabase = FirebaseUtil.firebaseDatabase;
-        databaseReference = FirebaseUtil.databaseReference;
-        dealList = FirebaseUtil.deals;
     }
 }

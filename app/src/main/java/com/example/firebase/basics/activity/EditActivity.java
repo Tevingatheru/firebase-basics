@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.domain.TravelDeal;
+import com.example.firebase.basics.service.FirebaseUtilService;
+import com.example.firebase.basics.service.MenuService;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,6 +30,8 @@ public class EditActivity extends AppCompatActivity {
 
     private TravelDeal deal;
     private Intent intent;
+    private MenuService menuService;
+    private FirebaseUtilService firebaseUtilService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,10 @@ public class EditActivity extends AppCompatActivity {
                 backToList();
                 return true;
 
+            case R.id.logout_option:
+                logout();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -71,6 +79,12 @@ public class EditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_edit_menu, menu);
+
+        if (FirebaseUtil.isMember) {
+            menu.findItem(R.id.delete_option).setVisible(false);
+        } else {
+            menu.findItem(R.id.delete_option).setVisible(true);
+        }
         return true;
     }
 
@@ -119,8 +133,10 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void listenToFB() {
-        FirebaseUtil.openFbReference("traveldeals");
-        firebaseDatabase = FirebaseUtil.firebaseDatabase;
-        databaseReference = FirebaseUtil.databaseReference;
+        firebaseUtilService.listenToFb();
+    }
+
+    private void logout() {
+        menuService.logoutOption(this);
     }
 }
