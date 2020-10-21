@@ -1,6 +1,7 @@
 package com.example.firebase.basics.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.firebase.basics.R;
@@ -18,6 +20,7 @@ import com.example.firebase.basics.domain.TravelDeal;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
 public class InsertActivity extends AppCompatActivity {
     EditText title;
@@ -26,7 +29,7 @@ public class InsertActivity extends AppCompatActivity {
 
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
-//    private FirebaseUtilService firebaseUtilService;
+    public static final int PICTURE_RESULT = 42;
     private Button btnImage;
 
     @Override
@@ -43,7 +46,7 @@ public class InsertActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                startActivityForResult(intent.createChooser(intent, "Insert Picture"), 42);
+                startActivityForResult(intent.createChooser(intent, "Insert Picture"), PICTURE_RESULT);
             }
         });
     }
@@ -66,18 +69,24 @@ public class InsertActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_insert_menu, menu);
-
         if (FirebaseUtil.isMember) {
-            menu.findItem(R.id.delete_option).setVisible(false);
-            menu.findItem(R.id.add_option).setVisible(false);
+            menu.findItem(R.id.save_option).setVisible(false);
             enableEditText(false);
         } else {
-            menu.findItem(R.id.delete_option).setVisible(true);
-            menu.findItem(R.id.add_option).setVisible(true);
+            menu.findItem(R.id.save_option).setVisible(true);
             enableEditText(true);
         }
-        menu.findItem(R.id.logout_option).setVisible(true);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
+            Uri imageUri = data.getData();
+            StorageReference reference = FirebaseUtil.storageReference.child(imageUri.getLastPathSegment());
+            reference.putFile(imageUri);
+        }
     }
 
     private void clean() {
@@ -91,6 +100,7 @@ public class InsertActivity extends AppCompatActivity {
         String txtTitle = title.getText().toString();
         String txtDescription = description.getText().toString();
         String txtPrice = price.getText().toString();
+
         TravelDeal deal = new TravelDeal(txtTitle, txtPrice, txtDescription, "");
         databaseReference.push().setValue(deal);
     }
@@ -106,8 +116,6 @@ public class InsertActivity extends AppCompatActivity {
         FirebaseUtil.openFbReference("traveldeals", new ListActivity());
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
-
-//        firebaseUtilService.listenToFb();
     }
 
     private void enableEditText(boolean isEnabled) {

@@ -31,7 +31,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
     private ChildEventListener childEventListener;
-//    private FirebaseUtilService firebaseUtilService;
 
     public DealAdapter() {
         listenToFB();
@@ -102,8 +101,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     }
 
     private void listenToFB() {
-        ListActivity activity = new ListActivity();
-        FirebaseUtil.openFbReference("traveldeals", activity);
+//        FirebaseUtil.openFbReference("traveldeals", activity);
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
         dealList = FirebaseUtil.deals;
@@ -121,6 +119,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle = (TextView) itemView.findViewById(R.id.row_title);
             tvPrice = (TextView) itemView.findViewById(R.id.row_price);
             tvDescription = (TextView) itemView.findViewById(R.id.row_description);
+
             itemView.setOnClickListener(this);
         }
 

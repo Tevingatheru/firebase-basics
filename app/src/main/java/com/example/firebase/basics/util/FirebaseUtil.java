@@ -25,17 +25,17 @@ import java.util.List;
 public class FirebaseUtil {
     private static final int RC_SIGN_IN = 123;
 
+    private static FirebaseAuth.AuthStateListener authStateListener;
+    private static FirebaseAuth firebaseAuth;
+    private static FirebaseUtil firebaseUtil;
+    private static ListActivity caller;
+    public static boolean isMember;
+
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
     public static ArrayList<TravelDeal> deals;
     public static FirebaseStorage firebaseStorage;
     public static StorageReference storageReference;
-    private static FirebaseAuth.AuthStateListener authStateListener;
-    private static FirebaseAuth firebaseAuth;
-
-    private static FirebaseUtil firebaseUtil;
-    private static ListActivity caller;
-    public static boolean isMember;
 
     private FirebaseUtil () {
     };
@@ -125,6 +125,6 @@ public class FirebaseUtil {
 
     public static void connectStorage() {
         firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference().child("deal_pictures");
+        storageReference = firebaseStorage.getReference().child("deals_pictures");
     }
 }

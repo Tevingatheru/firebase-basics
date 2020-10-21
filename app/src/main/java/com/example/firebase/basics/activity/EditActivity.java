@@ -1,11 +1,13 @@
 package com.example.firebase.basics.activity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,12 +32,12 @@ public class EditActivity extends AppCompatActivity {
     private TravelDeal deal;
     private Intent intent;
     private MenuService menuService;
-//    private FirebaseUtilService firebaseUtilService;
+    private View image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        setContentView(R.layout.activity_insert);
 
         listenToFB();
         initializeContent(savedInstanceState);
@@ -43,6 +45,7 @@ public class EditActivity extends AppCompatActivity {
         title.setText(deal.getTitle());
         description.setText(deal.getDescription());
         price.setText(deal.getPrice());
+
     }
 
     @Override
@@ -122,9 +125,10 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void initializeContent(Bundle savedInstanceState) {
-        title = (EditText) findViewById(R.id.edit_title);
-        description = (EditText) findViewById(R.id.edit_description) ;
-        price = (EditText) findViewById(R.id.edit_price);
+        title = (EditText) findViewById(R.id.insert_title);
+        description = (EditText) findViewById(R.id.insert_description) ;
+        price = (EditText) findViewById(R.id.insert_price);
+        image = (View) findViewById(R.id.imageView);
 
         intent = getIntent();
         this.deal = (TravelDeal) intent.getSerializableExtra("Deal");
@@ -135,7 +139,6 @@ public class EditActivity extends AppCompatActivity {
         FirebaseUtil.openFbReference("traveldeals", new ListActivity());
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
-//        firebaseUtilService.listenToFb();
     }
 
     private void logout() {

@@ -26,7 +26,6 @@ public class ListActivity extends AppCompatActivity {
     public static DatabaseReference databaseReference;
     ArrayList<TravelDeal> dealList;
     private MenuService menuService;
-//    private FirebaseUtilService firebaseUtilService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
