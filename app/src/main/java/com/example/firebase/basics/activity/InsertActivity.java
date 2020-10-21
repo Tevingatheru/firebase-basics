@@ -2,6 +2,7 @@ package com.example.firebase.basics.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,9 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.domain.TravelDeal;
 import com.example.firebase.basics.util.FirebaseUtil;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.Objects;
 
 public class InsertActivity extends AppCompatActivity {
     EditText title;
@@ -31,6 +36,8 @@ public class InsertActivity extends AppCompatActivity {
     public static DatabaseReference databaseReference;
     public static final int PICTURE_RESULT = 42;
     private Button btnImage;
+    private TravelDeal deal;
+    private String uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +90,15 @@ public class InsertActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
+            assert data != null;
             Uri imageUri = data.getData();
-            StorageReference reference = FirebaseUtil.storageReference.child(imageUri.getLastPathSegment());
-            reference.putFile(imageUri);
+            StorageReference reference = FirebaseUtil.storageReference.child(Objects.requireNonNull(imageUri.getLastPathSegment()));
+            reference.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    uri = taskSnapshot.getUploadSessionUri().toString();
+                }
+            });
         }
     }
 
@@ -93,6 +106,7 @@ public class InsertActivity extends AppCompatActivity {
         title.setText("");
         price.setText("");
         description.setText("");
+
         title.requestFocus();
     }
 
@@ -101,7 +115,7 @@ public class InsertActivity extends AppCompatActivity {
         String txtDescription = description.getText().toString();
         String txtPrice = price.getText().toString();
 
-        TravelDeal deal = new TravelDeal(txtTitle, txtPrice, txtDescription, "");
+        deal = new TravelDeal(txtTitle, txtPrice, txtDescription, uri);
         databaseReference.push().setValue(deal);
     }
 

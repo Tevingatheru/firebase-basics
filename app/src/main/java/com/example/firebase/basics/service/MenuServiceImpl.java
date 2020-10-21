@@ -28,6 +28,5 @@ public class MenuServiceImpl implements MenuService {
                         FirebaseUtil.attachListener();
                     }
                 });
-        FirebaseUtil.detachListener();
     }
 }

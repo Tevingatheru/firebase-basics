@@ -67,6 +67,7 @@ public class ListActivity extends AppCompatActivity {
 
     private void logout() {
         menuService.logoutOption(this);
+        FirebaseUtil.detachListener();
     }
 
     @Override
