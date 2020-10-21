@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.activity.EditActivity;
+import com.example.firebase.basics.activity.ListActivity;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.service.FirebaseUtilService;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,12 +30,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     ArrayList<TravelDeal> dealList;
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
-    private FirebaseUtilService firebaseUtilService;
+    private ChildEventListener childEventListener;
+//    private FirebaseUtilService firebaseUtilService;
 
     public DealAdapter() {
         listenToFB();
 
-        final ChildEventListener childEventListener = new ChildEventListener() {
+        childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TravelDeal travelDeal;
@@ -101,7 +102,11 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     }
 
     private void listenToFB() {
-        firebaseUtilService.listenToFb();
+        ListActivity activity = new ListActivity();
+        FirebaseUtil.openFbReference("traveldeals", activity);
+        firebaseDatabase = FirebaseUtil.firebaseDatabase;
+        databaseReference = FirebaseUtil.databaseReference;
+        dealList = FirebaseUtil.deals;
     }
 
     public class DealViewHolder extends RecyclerView.ViewHolder

@@ -67,8 +67,10 @@ public class FirebaseUtil {
                     Toast.makeText(caller.getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
                 }
             };
+            connectStorage();
         }
-        connectStorage();
+        deals = new ArrayList<TravelDeal>();
+        databaseReference = firebaseDatabase.getReference().child(ref);
     }
 
     private static void checkMember(String userId) {

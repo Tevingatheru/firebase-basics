@@ -1,8 +1,5 @@
 package com.example.firebase.basics.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,9 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.service.FirebaseUtilService;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,7 +26,7 @@ public class InsertActivity extends AppCompatActivity {
 
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
-    private FirebaseUtilService firebaseUtilService;
+//    private FirebaseUtilService firebaseUtilService;
     private Button btnImage;
 
     @Override
@@ -104,7 +103,11 @@ public class InsertActivity extends AppCompatActivity {
     }
 
     private void listenToFB() {
-        firebaseUtilService.listenToFb();
+        FirebaseUtil.openFbReference("traveldeals", new ListActivity());
+        firebaseDatabase = FirebaseUtil.firebaseDatabase;
+        databaseReference = FirebaseUtil.databaseReference;
+
+//        firebaseUtilService.listenToFb();
     }
 
     private void enableEditText(boolean isEnabled) {

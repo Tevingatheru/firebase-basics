@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.adapter.DealAdapter;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.service.FirebaseUtilService;
 import com.example.firebase.basics.service.MenuService;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +26,7 @@ public class ListActivity extends AppCompatActivity {
     public static DatabaseReference databaseReference;
     ArrayList<TravelDeal> dealList;
     private MenuService menuService;
-    private FirebaseUtilService firebaseUtilService;
-
+//    private FirebaseUtilService firebaseUtilService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
