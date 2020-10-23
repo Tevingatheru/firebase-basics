@@ -60,11 +60,11 @@ public class FirebaseUtil {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     if(firebaseAuth.getCurrentUser() == null) {
                         FirebaseUtil.signIn();
+                        Toast.makeText(caller.getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
                     } else {
                         String userId = firebaseAuth.getUid();
                         checkMember(userId);
                     }
-                    Toast.makeText(caller.getBaseContext(), "Welcome", Toast.LENGTH_LONG).show();
                 }
             };
             connectStorage();

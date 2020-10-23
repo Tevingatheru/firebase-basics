@@ -4,5 +4,17 @@
     <item
         android:id="@+id/save_option"
         android:title="@string/save"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/view_deals_option"
+        android:title="@string/view_deals_option"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/delete_option"
+        android:title="@string/delete_option"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/logout_option"
+        android:title="@string/logout_option"
+        app:showAsAction="never"/>
 </menu>

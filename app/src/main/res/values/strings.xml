@@ -12,4 +12,5 @@
     <string name="delete_option">Delete</string>
     <string name="view_deals_option">View Deals</string>
     <string name="logout_option">Logout</string>
+    <string name="image_deals">image deals</string>
 </resources>

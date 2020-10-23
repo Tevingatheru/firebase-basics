@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         hello = findViewById(R.id.hello);
 
-        initializeContent();
+        startListActivity();
     }
 
-    public void initializeContent() {
+    public void startListActivity() {
 
-        Intent insertActivity = new Intent(MainActivity.this, InsertActivity.class);
+        Intent insertActivity = new Intent(MainActivity.this, ListActivity.class);
         startActivity(insertActivity);
     }
 }

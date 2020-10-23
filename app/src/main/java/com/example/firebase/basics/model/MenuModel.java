@@ -1,4 +1,4 @@
-package com.example.firebase.basics.service;
+package com.example.firebase.basics.model;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,15 +9,11 @@ import com.example.firebase.basics.util.FirebaseUtil;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 
-public class MenuServiceImpl implements MenuService {
+public class MenuModel {
 
-    private MenuService menuService;
-
-    public MenuServiceImpl(MenuService menuService) {
-        this.menuService = menuService;
+    public MenuModel() {
     }
 
-    @Override
     public void logoutOption(Context context) {
         AuthUI.getInstance()
                 .signOut(context)
@@ -28,5 +24,6 @@ public class MenuServiceImpl implements MenuService {
                         FirebaseUtil.attachListener();
                     }
                 });
+        FirebaseUtil.detachListener();
     }
 }

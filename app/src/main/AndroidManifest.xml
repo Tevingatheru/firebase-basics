@@ -10,23 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.EditActivity"
-            android:label="@string/edit_option"
-            ></activity>
-        <activity
             android:name=".activity.ListActivity"
             android:label="List">
+        </activity>
+        <activity
+            android:name=".activity.DealActivity"
+            android:label="@string/Insert_label">
+        </activity>
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.InsertActivity"
-            android:label="@string/Insert_label"
-            ></activity>
-        <activity android:name=".activity.MainActivity"></activity>
     </application>
 
 </manifest>

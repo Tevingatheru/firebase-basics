@@ -7,12 +7,13 @@
 
     <ImageView
         android:id="@+id/row_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_standard"
+        android:contentDescription="@string/image_deals"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@android:drawable/ic_menu_sort_alphabetically" />
 
     <TextView
         android:id="@+id/row_title"
@@ -21,7 +22,6 @@
         android:layout_marginStart="@dimen/margin_standard"
         android:layout_marginTop="@dimen/margin_standard"
         android:textSize="30sp"
-        android:text="Title"
 
         app:layout_constraintStart_toEndOf="@+id/row_image"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,6 @@
         android:layout_marginStart="@dimen/margin_standard"
         android:layout_marginTop="@dimen/margin_standard"
         android:textSize="24sp"
-        android:text="description"
 
         app:layout_constraintStart_toEndOf="@+id/row_image"
         app:layout_constraintTop_toBottomOf="@+id/row_title" />
@@ -44,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_standard"
         android:layout_marginEnd="@dimen/margin_standard"
-        android:text="100.00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/row_description"
         android:textSize="12sp"

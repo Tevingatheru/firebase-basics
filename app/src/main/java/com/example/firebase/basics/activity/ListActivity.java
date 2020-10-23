@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.adapter.DealAdapter;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.service.MenuService;
+import com.example.firebase.basics.model.MenuModel;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,13 +25,15 @@ public class ListActivity extends AppCompatActivity {
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
     ArrayList<TravelDeal> dealList;
-    private MenuService menuService;
+
+    private MenuModel menuModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        getList();
+        FirebaseUtil.openFbReference("traveldeals", this);
+        setView();
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ListActivity extends AppCompatActivity {
         Intent intent = new Intent();
         switch (item.getItemId()) {
             case R.id.add_option:
-                intent = new Intent(this, InsertActivity.class);
+                intent = new Intent(this, DealActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.logout_option:
@@ -66,8 +68,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        menuService.logoutOption(this);
-        FirebaseUtil.detachListener();
+        menuModel.logoutOption(this);
     }
 
     @Override
@@ -79,20 +80,18 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getList();
+        setView();
         FirebaseUtil.attachListener();
     }
 
-    public void getList(){
-        FirebaseUtil.openFbReference("traveldeals", this);
-        RecyclerView rvDeals = (RecyclerView) findViewById(R.id.rvDealList);
+    public void setView(){
         final DealAdapter adapter = new DealAdapter();
-        rvDeals.setAdapter(adapter);
-
-        LinearLayoutManager dealLinearLayout =
+        final LinearLayoutManager dealLinearLayout =
                 new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false);
-        rvDeals.setLayoutManager(dealLinearLayout);
 
+        RecyclerView rvDeals = (RecyclerView) findViewById(R.id.rvDealList);
+        rvDeals.setAdapter(adapter);
+        rvDeals.setLayoutManager(dealLinearLayout);
     }
 
     public void showMenu() {
