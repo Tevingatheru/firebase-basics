@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.adapter.DealAdapter;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.util.MenuUtil;
 import com.example.firebase.basics.util.FirebaseUtil;
+import com.example.firebase.basics.util.MenuUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

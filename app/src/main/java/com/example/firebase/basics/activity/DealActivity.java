@@ -20,8 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.util.MenuUtil;
 import com.example.firebase.basics.util.FirebaseUtil;
+import com.example.firebase.basics.util.MenuUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
