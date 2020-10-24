@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.adapter.DealAdapter;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.model.MenuModel;
+import com.example.firebase.basics.util.MenuUtil;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,7 +26,7 @@ public class ListActivity extends AppCompatActivity {
     public static DatabaseReference databaseReference;
     ArrayList<TravelDeal> dealList;
 
-    private MenuModel menuModel;
+    private MenuUtil menuUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        menuModel.logoutOption(this);
+        menuUtil.logoutOption(this);
     }
 
     @Override

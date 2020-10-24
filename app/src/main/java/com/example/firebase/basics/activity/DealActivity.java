@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.firebase.basics.R;
 import com.example.firebase.basics.domain.TravelDeal;
-import com.example.firebase.basics.model.MenuModel;
+import com.example.firebase.basics.util.MenuUtil;
 import com.example.firebase.basics.util.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,7 +45,7 @@ public class DealActivity extends AppCompatActivity {
     private TravelDeal deal;
     private String uri;
     private Intent intent;
-    private MenuModel menuModel;
+    private MenuUtil menuUtil;
     private String imageName;
 
     @Override
@@ -200,8 +200,8 @@ public class DealActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        menuModel = new MenuModel();
-        menuModel.logoutOption(this);
+        menuUtil = new MenuUtil();
+        menuUtil.logoutOption(this);
     }
 
     private void editDeal() {

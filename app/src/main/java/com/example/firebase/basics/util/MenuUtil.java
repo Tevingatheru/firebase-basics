@@ -1,4 +1,4 @@
-package com.example.firebase.basics.model;
+package com.example.firebase.basics.util;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,9 +9,9 @@ import com.example.firebase.basics.util.FirebaseUtil;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 
-public class MenuModel {
+public class MenuUtil {
 
-    public MenuModel() {
+    public MenuUtil() {
     }
 
     public void logoutOption(Context context) {
