@@ -8,16 +8,18 @@ public class TravelDeal implements Serializable {
     private String price;
     private String description;
     private String imageUri;
+    private String imageName;
 
     public TravelDeal() {
     }
 
-    public TravelDeal(String title, String price, String description, String imageUri) {
+    public TravelDeal(String title, String price, String description, String imageUri, String imageName) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.description = description;
         this.imageUri = imageUri;
+        this.imageName = imageName;
     }
 
     public String getId() {
@@ -58,5 +60,13 @@ public class TravelDeal implements Serializable {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

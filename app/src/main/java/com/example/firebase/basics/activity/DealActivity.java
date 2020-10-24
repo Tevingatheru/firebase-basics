@@ -22,6 +22,7 @@ import com.example.firebase.basics.R;
 import com.example.firebase.basics.domain.TravelDeal;
 import com.example.firebase.basics.model.MenuModel;
 import com.example.firebase.basics.util.FirebaseUtil;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -45,6 +46,7 @@ public class DealActivity extends AppCompatActivity {
     private String uri;
     private Intent intent;
     private MenuModel menuModel;
+    private String imageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,6 @@ public class DealActivity extends AppCompatActivity {
         listenToFB();
         initializeContent();
 
-        if(deal != null) {
-            setTravelDeal();
-        }
 
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,25 +76,28 @@ public class DealActivity extends AppCompatActivity {
                 if (deal.getId() == null) {
                     saveDeal();
                     Toast.makeText(this, "Deal Saved", Toast.LENGTH_LONG).show();
+                    clean();
                 } else {
                     editDeal();
                     Toast.makeText(this, "Deal Edited", Toast.LENGTH_LONG).show();
                 }
-                clean();
 //                startListActivity();
                 return true;
 
             case R.id.delete_option:
                 deleteDeal();
                 Toast.makeText(this, "Deal Deleted", Toast.LENGTH_LONG).show();
+                clean();
                 startListActivity();
                 return true;
 
             case R.id.view_deals_option:
+                clean();
                 startListActivity();
                 return true;
 
             case R.id.logout_option:
+                clean();
                 logout();
                 return true;
 
@@ -128,6 +130,7 @@ public class DealActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     uri = taskSnapshot.getUploadSessionUri().toString();
+                    imageName = taskSnapshot.getStorage().getPath();
                     showImage(uri);
                 }
             });
@@ -138,6 +141,7 @@ public class DealActivity extends AppCompatActivity {
         title.setText("");
         price.setText("");
         description.setText("");
+        uri = null;
 
         title.requestFocus();
     }
@@ -147,7 +151,7 @@ public class DealActivity extends AppCompatActivity {
         String txtDescription = description.getText().toString();
         String txtPrice = price.getText().toString();
 
-        deal = new TravelDeal(txtTitle, txtPrice, txtDescription, uri);
+        deal = new TravelDeal(txtTitle, txtPrice, txtDescription, uri, imageName);
         databaseReference.push().setValue(deal);
     }
 
@@ -160,6 +164,10 @@ public class DealActivity extends AppCompatActivity {
 
         intent = getIntent();
         this.deal = (TravelDeal) intent.getSerializableExtra("Deal");
+        if(deal == null) {
+            deal = new TravelDeal();
+        }
+        setTravelDeal();
     }
 
     private void listenToFB() {
@@ -188,6 +196,7 @@ public class DealActivity extends AppCompatActivity {
         }
         Log.d("Delete: ", deal.getId());
         databaseReference.child(deal.getId()).removeValue();
+        deleteImage();
     }
 
     private void logout() {
@@ -222,6 +231,23 @@ public class DealActivity extends AppCompatActivity {
                     .resize(width, width*2/3)
                     .centerCrop()
                     .into(imageView);
+        }
+    }
+
+    private void deleteImage() {
+        if (deal.getImageName() != null && !deal.getImageName().isEmpty()) {
+            FirebaseUtil.storageReference.child(deal.getImageName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d("Delete","Success");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Delete","Failure with: "+ e.getMessage());
+
+                }
+            });
         }
     }
 }
