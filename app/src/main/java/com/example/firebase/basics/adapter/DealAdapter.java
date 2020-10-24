@@ -2,6 +2,7 @@ package com.example.firebase.basics.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -129,6 +131,9 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle.setText(travelDeal.getTitle());
             tvPrice.setText(travelDeal.getPrice());
             tvDescription.setText(travelDeal.getDescription());
+            if (travelDeal.getImageUri() != null && !travelDeal.getImageUri().isEmpty()) {
+                showImage(travelDeal.getImageUri());
+            }
         }
 
         @Override
@@ -139,6 +144,18 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             Intent intent = new Intent(v.getContext(), DealActivity.class);
             intent.putExtra("Deal", travelDeal);
             v.getContext().startActivity(intent);
+        }
+
+        private void showImage(String url) {
+            if (url != null && !url.isEmpty()) {
+                Log.d("Image: ", url);
+                int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+                Picasso.with(ivImageDeal.getContext())
+                        .load(url)
+                        .resize(120,120)
+                        .centerCrop()
+                        .into(ivImageDeal);
+            }
         }
     }
 }

@@ -56,7 +56,6 @@ public class DealActivity extends AppCompatActivity {
         listenToFB();
         initializeContent();
 
-
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +80,7 @@ public class DealActivity extends AppCompatActivity {
                     editDeal();
                     Toast.makeText(this, "Deal Edited", Toast.LENGTH_LONG).show();
                 }
-//                startListActivity();
+                startListActivity();
                 return true;
 
             case R.id.delete_option:
@@ -208,15 +207,18 @@ public class DealActivity extends AppCompatActivity {
         deal.setTitle(title.getText().toString());
         deal.setDescription(description.getText().toString());
         deal.setPrice(price.getText().toString());
+        deal.setImageUri(uri);
         if(deal.getId()==null) {
             throw new NullPointerException();
         }
-        Log.d("Edit: ", deal.getId());
+        Log.d("Deal: ", "Edit: " +deal.getId());
 
         databaseReference.child(deal.getId()).setValue(deal);
     }
 
     private void setTravelDeal() {
+        Log.d("Deal: ", "Selected: "+ deal.getId());
+
         title.setText(deal.getTitle());
         description.setText(deal.getDescription());
         price.setText(deal.getPrice());
@@ -225,6 +227,7 @@ public class DealActivity extends AppCompatActivity {
 
     private void showImage(String url) {
         if (url != null && !url.isEmpty()) {
+            Log.d("Image: ", url);
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
             Picasso.with(this)
                     .load(url)
@@ -236,6 +239,7 @@ public class DealActivity extends AppCompatActivity {
 
     private void deleteImage() {
         if (deal.getImageName() != null && !deal.getImageName().isEmpty()) {
+            Log.d("Image: ", "Deleted " + deal.getImageName());
             FirebaseUtil.storageReference.child(deal.getImageName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -245,7 +249,6 @@ public class DealActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d("Delete","Failure with: "+ e.getMessage());
-
                 }
             });
         }
